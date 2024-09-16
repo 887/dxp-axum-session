@@ -2,11 +2,16 @@
     clippy::unwrap_used,
     clippy::expect_used,
     clippy::indexing_slicing,
-    clippy::panic
+    clippy::panic,
+    clippy::print_stderr,
+    clippy::print_stdout
 )]
 
+//sea_orm does not support setting the table name dynamically
+pub const TABLE_NAME: &str = "sessions";
+
 #[cfg(feature = "db_pool")]
-mod db_storage;
+mod db_pool;
 #[cfg(feature = "db_pool")]
 mod entities;
 
@@ -14,4 +19,4 @@ mod entities;
 pub mod migration;
 
 #[cfg(feature = "db_pool")]
-pub use db_storage::*;
+pub use db_pool::*;
