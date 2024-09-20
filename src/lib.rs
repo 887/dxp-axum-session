@@ -18,5 +18,11 @@ mod entities;
 #[cfg(feature = "migration")]
 pub mod migration;
 
+#[cfg(feature = "memory_pool")]
+pub mod memory_pool;
+
 #[cfg(feature = "db_pool")]
 pub use db_pool::*;
+
+#[cfg(feature = "memory_pool")]
+pub use memory_pool::*;

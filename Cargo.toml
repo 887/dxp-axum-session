@@ -16,7 +16,8 @@ axum_session = { version = "0.14.0", default-features = false, optional = true }
 async-trait = "0.1.82"
 
 [features]
-default = ["db_pool"]
+default = ["db_pool", "memory_pool"]
 db_pool = ["dep:axum_session", "dep:serde", "dep:chrono", "dep:sea-orm"]
+memory_pool = []
 migration = ["dep:sea-orm-migration"]
 
