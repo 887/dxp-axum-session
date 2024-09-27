@@ -27,10 +27,12 @@ impl MemoryPool {
 
 #[async_trait::async_trait]
 impl DatabasePool for MemoryPool {
+    #[inline(always)]
     async fn initiate(&self, _table_name: &str) -> Result<(), DatabaseError> {
         Ok(())
     }
 
+    #[inline(always)]
     async fn delete_by_expiry(&self, _table_name: &str) -> Result<Vec<String>, DatabaseError> {
         let mut expired = self
             .expires
@@ -53,6 +55,7 @@ impl DatabasePool for MemoryPool {
         Ok(expired_entries)
     }
 
+    #[inline(always)]
     async fn count(&self, _table_name: &str) -> Result<i64, DatabaseError> {
         Ok(self
             .entries
@@ -61,6 +64,7 @@ impl DatabasePool for MemoryPool {
             .len() as i64)
     }
 
+    #[inline(always)]
     async fn store(
         &self,
         id: &str,
@@ -94,6 +98,7 @@ impl DatabasePool for MemoryPool {
         Ok(())
     }
 
+    #[inline(always)]
     async fn load(&self, id: &str, _table_name: &str) -> Result<Option<String>, DatabaseError> {
         let entries = self
             .entries
@@ -104,6 +109,7 @@ impl DatabasePool for MemoryPool {
         Ok(maybe_model.map(|model| model.session.clone()))
     }
 
+    #[inline(always)]
     async fn delete_one_by_id(&self, id: &str, _table_name: &str) -> Result<(), DatabaseError> {
         let mut entries = self
             .entries
@@ -122,6 +128,7 @@ impl DatabasePool for MemoryPool {
         Ok(())
     }
 
+    #[inline(always)]
     async fn exists(&self, id: &str, _table_name: &str) -> Result<bool, DatabaseError> {
         let entries = self
             .entries
@@ -130,6 +137,7 @@ impl DatabasePool for MemoryPool {
         Ok(entries.contains_key(id))
     }
 
+    #[inline(always)]
     async fn delete_all(&self, _table_name: &str) -> Result<(), DatabaseError> {
         let mut entries = self
             .entries
@@ -144,6 +152,7 @@ impl DatabasePool for MemoryPool {
         Ok(())
     }
 
+    #[inline(always)]
     async fn get_ids(&self, _table_name: &str) -> Result<Vec<String>, DatabaseError> {
         let entries = self
             .entries
@@ -152,6 +161,7 @@ impl DatabasePool for MemoryPool {
         Ok(entries.keys().cloned().collect())
     }
 
+    #[inline(always)]
     fn auto_handles_expiry(&self) -> bool {
         false
     }

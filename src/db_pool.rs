@@ -27,6 +27,7 @@ impl DbPool {
 
 #[async_trait]
 impl DatabasePool for DbPool {
+    #[inline(always)]
     async fn initiate(&self, _table_name: &str) -> Result<(), DatabaseError> {
         let builder = self.pool.get_database_backend();
 
@@ -101,6 +102,7 @@ impl DatabasePool for DbPool {
         Ok(())
     }
 
+    #[inline(always)]
     async fn delete_by_expiry(&self, _table_name: &str) -> Result<Vec<String>, DatabaseError> {
         let results = sessions::Entity::find()
             .filter(
@@ -146,6 +148,7 @@ impl DatabasePool for DbPool {
         Ok(result)
     }
 
+    #[inline(always)]
     async fn count(&self, _table_name: &str) -> Result<i64, DatabaseError> {
         let count = sessions::Entity::find()
             .count(&self.pool)
@@ -164,6 +167,8 @@ impl DatabasePool for DbPool {
 
     //https://github.com/AscendingCreations/AxumSession/blob/main/src/session_data.rs
     //   pub(crate) expires: DateTime<Utc>,
+
+    #[inline(always)]
     async fn store(
         &self,
         id: &str,
@@ -213,6 +218,7 @@ impl DatabasePool for DbPool {
         Ok(())
     }
 
+    #[inline(always)]
     async fn load(&self, id: &str, _table_name: &str) -> Result<Option<String>, DatabaseError> {
         let maybe_model = sessions::Entity::find()
             .filter(sessions::Column::Id.eq(id))
@@ -247,6 +253,7 @@ impl DatabasePool for DbPool {
         // Ok(result.map(|(session,)| session))
     }
 
+    #[inline(always)]
     async fn delete_one_by_id(&self, id: &str, _table_name: &str) -> Result<(), DatabaseError> {
         sessions::Entity::delete_many()
             .filter(sessions::Column::Id.eq(id))
@@ -264,6 +271,7 @@ impl DatabasePool for DbPool {
         Ok(())
     }
 
+    #[inline(always)]
     async fn exists(&self, id: &str, _table_name: &str) -> Result<bool, DatabaseError> {
         let count = sessions::Entity::find()
             .filter(sessions::Column::Id.eq(id))
@@ -289,6 +297,7 @@ impl DatabasePool for DbPool {
         Ok(count > 0)
     }
 
+    #[inline(always)]
     async fn delete_all(&self, _table_name: &str) -> Result<(), DatabaseError> {
         sessions::Entity::delete_many()
             .exec(&self.pool)
@@ -302,6 +311,7 @@ impl DatabasePool for DbPool {
         Ok(())
     }
 
+    #[inline(always)]
     async fn get_ids(&self, _table_name: &str) -> Result<Vec<String>, DatabaseError> {
         let results = sessions::Entity::find()
             .filter(
@@ -332,6 +342,7 @@ impl DatabasePool for DbPool {
         Ok(result)
     }
 
+    #[inline(always)]
     fn auto_handles_expiry(&self) -> bool {
         false
     }
